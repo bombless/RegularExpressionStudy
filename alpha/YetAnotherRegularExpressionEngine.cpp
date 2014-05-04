@@ -2,10 +2,6 @@
 FA1::Status::Status()
 /* 简单的制造一个没有任何转移的空状态 */
 :closure(), accept(false), map(){}
-FA1::Status::Status(const Status& r)
-/* 复制接受状态属性，待会要将所有转移拷贝过来 */
-: closure(r.closure), accept(r.accept), map(r.map){}
-FA1::Status::Status(std::vector<Status*> c, StatusMap m) : accept(false), closure(c), map(m){}
 FA1::Status* FA1::Status::FindAcceptStatus(){
 	std::vector<Status*> list = GetStatus();
 	for (size_t i = 0; i < list.size(); ++i){

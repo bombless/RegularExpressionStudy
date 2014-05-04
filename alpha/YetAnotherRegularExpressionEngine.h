@@ -30,10 +30,6 @@ private:
 		friend FA1;
 		/* 制造一个空状态，它不含任何转移 */
 		Status();
-		/* 拷贝构造函数，它复制状态rhs的所有转移 */
-		Status(const Status& rhs);
-		/* 深拷贝时用的上 */
-		Status(const std::vector<Status*>, StatusMap);
 		/* 添加一个经由空串到目标状态的转移 */
 		void SetClosure(Status*);
 		/* 获取一个状态下可以经由空串转移到的状态，附加到参数上并返回 */
