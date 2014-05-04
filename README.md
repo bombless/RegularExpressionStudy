@@ -1,6 +1,6 @@
 YetAnotherRegularExpressionEngine
 =================================
-最近看了《编译器设计（第二版）》，是莱斯大学的Keith D. Cooper与Linda Torczon合著的，非常精彩。
+最近看了莱斯大学的Keith D. Cooper与Linda Torczon合著的《编译器设计（第二版）》，非常精彩。
 我决定在阅读的同时按照书上的指导做一些编码，加深我对知识的理解。
 这个正则表达式引擎就是由此产生的第一个作品。
 
