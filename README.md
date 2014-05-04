@@ -12,4 +12,8 @@ alpha版只支持 * 与 | 两个符号，往后会逐渐加入更完善的功能
 - 分组功能
 - 将alpha版采用的NFA改为用DFA
 
+所有代码通过以下环境的编译、运行测试：
+- Microsoft Visual Studio Express 2013 for Windows Desktop
+- gcc version 4.8.1 (tdm64-2)
+
 本项目采用 MIT 授权，use it at your own risk。
