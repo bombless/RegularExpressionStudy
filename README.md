@@ -12,4 +12,4 @@ alpha版只支持 * 与 | 两个符号，往后会逐渐加入更完善的功能
 - 分组功能
 - 将alpha版采用的NFA改为用DFA
 
-本项目采用 MIT 授权，use it at your own risk.
+本项目采用 MIT 授权，use it at your own risk。
