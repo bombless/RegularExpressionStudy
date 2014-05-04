@@ -201,6 +201,10 @@ FA1::Status* FA1::Constructor(const char* p){
 			Status* left = ConstructSingleTransitionAutomachine(*p);
 			if (!left)return 0;
 			Status* right = Constructor(p + 2);
+			if (!right){
+				Free(left);
+				return 0;
+			}
 			Status* leftKleene = left->Kleene();
 			Free(left);
 			Status* ret = leftKleene->Concat(right);
@@ -213,6 +217,10 @@ FA1::Status* FA1::Constructor(const char* p){
 			Status* left = ConstructSingleTransitionAutomachine(*p);
 			if (!left)return 0;
 			Status* right = Constructor(p + 1);
+			if (!right){
+				Free(left);
+				return 0;
+			}
 			Status* ret = left->Concat(right);
 			Free(left);
 			Free(right);
@@ -231,8 +239,15 @@ FA1::Status* FA1::Constructor(const char* p){
 			buf[f] = '\0';
 			left = Constructor(buf);
 			delete buf;
+			if (!left){
+				return 0;
+			}
 		}
 		Status* right = Constructor(&p[f + 1]);
+		if (!right){
+			Free(left);
+			return 0;
+		}
 		Status* ret = left->Pipe(right);
 		Free(left);
 		Free(right);

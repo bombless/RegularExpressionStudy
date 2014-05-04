@@ -1,5 +1,9 @@
 #include <iostream>
+#include <string>
 #include "YetAnotherRegularExpressionEngine.h"
+#ifdef _DEBUG
+#include <conio.h>
+#endif
 void expect(const char *expr, bool ex, bool ac){
 	const char* e = ex ? "true" : "false";
 	const char *a = ac ? "true" : "false";
@@ -35,14 +39,15 @@ public:
 };
 class TestException{
 	FA1 fa;
+	std::string re;
 public:
-	TestException(const char *re) :fa(re){}
+	TestException(const char *re) :fa(re), re(re){}
 	TestException& operator ,(const char *p){
 		try{
 			fa << p;
 		}
 		catch (FA1::SyntaxErrorException &e){
-			std::cout << "expected exception received: RE syntax error." << std::endl;
+			std::cout << "passed: expected exception received for RE /" << re << "/" << std::endl;
 			return *this;
 		}
 		std::cout << "!!error: expected exception was not caught." << std::endl;
@@ -87,5 +92,17 @@ int main(){
 	Test("||", Expect(true)), "";
 	Test("||", Expect(false)), "a";
 	TestException("*"), "", "a", "b";
+	TestException("|*"), "", "a", "b";
+	TestException("**"), "", "a", "b";
+	TestException("*|*"), "", "a", "b";
+	TestException("*||*"), "", "a", "b";
+	TestException("||*"), "", "a", "b";
+#ifdef _DEBUG
+#ifdef _MSC_VER
+	_CrtCheckMemory();
+	_CrtDumpMemoryLeaks();
+#endif
+	_getch();
+#endif
 	return 0;
 }
