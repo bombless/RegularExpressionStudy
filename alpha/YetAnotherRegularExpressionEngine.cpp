@@ -335,12 +335,14 @@ std::vector<FA1::Status*> FA1::Status::GetStatus(){
 	p.push_back(this);
 	while (p.size() > 0){
 		for (size_t i = 0; i < p.size(); ++i){
+			/* 如果节点已经找到过了，就放弃它，从下一个开始 */
 			if (std::find(list.begin(), list.end(), p[i]) != list.end()){
 				p.erase(std::remove(p.begin(), p.end(), p[i]), p.end());
 				i -= 1;
 				continue;
 			}
 			list.push_back(p[i]);
+/* 这里有个很重要的假设避免了会导致栈溢出的死循环：Thompson构造法构造出的NFA是没有到自己的转移的 */
 			for (size_t j = 0; j < p[i]->closure.size(); ++j){
 				waitForAttach.push_back(p[i]->closure[j]);
 			}
@@ -349,6 +351,7 @@ std::vector<FA1::Status*> FA1::Status::GetStatus(){
 				waitForAttach.push_back(it->second);
 			}
 		}
+		/* 附上这次找到的状态准备开始下一次搜索 */
 		for (size_t i = 0; i < waitForAttach.size(); ++i){
 			if (std::find(list.begin(), list.end(), waitForAttach[i]) == list.end()){
 				p.push_back(waitForAttach[i]);
