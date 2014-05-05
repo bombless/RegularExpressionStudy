@@ -26,7 +26,8 @@ class FA2{
 		~ConfigContainer();
 	};
 	DFAStatus* s0;
-	static std::vector<DFAStatus*> GetStatus(DFAStatus*);
+	std::vector<DFAStatus*> listForDeletion;
+	static void GetStatus(DFAStatus*, std::vector<DFAStatus*>&);
 	static std::vector<FA1::Status*> GetClosures(const std::vector<FA1::Status*>&);
 	static Config Delta(const Config&, char);
 	static inline void SwapIfLessThan(FA1::Status*&, FA1::Status*&);

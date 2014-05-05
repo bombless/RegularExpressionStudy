@@ -5,35 +5,22 @@ FA2::~FA2(){
 	if (s0)Free(s0);
 }
 void FA2::Free(FA2::DFAStatus* head){
-	std::vector<DFAStatus*> list = GetStatus(head);
+	std::vector<DFAStatus*> list;
+	GetStatus(head, list);
+	delete head;
 	for (size_t i = 0; i < list.size(); ++i){
 		delete list[i];
 	}
 }
-std::vector<FA2::DFAStatus*> FA2::GetStatus(DFAStatus* head){
-	std::vector<DFAStatus*> ret, p, waitForAttach;
-	p.push_back(head);
-	while (p.size() > 0){
-		for (size_t i = 0; i < p.size(); ++i){
-			if (std::find(ret.begin(), ret.end(), p[i]) == ret.end()){
-				p.erase(std::remove(p.begin(), p.end(), p[i]), p.end());
-				i -= 1;
-				continue;
-			}
-			ret.push_back(p[i]);
-			for (DFAStatusMap::const_iterator it = p[i]->map.begin();
-				it != p[i]->map.end(); ++it){
-				/* 与Thompson构造法造出的NFA不同，这里的DFA是有到自己的转移的，因此需要多检查 */
-				if (std::find(ret.begin(), ret.end(), it->second) == ret.end()){
-					waitForAttach.push_back(it->second);
-				}
-			}
-		}
-		for (size_t i = 0; i < waitForAttach.size(); ++i){
-			p.push_back(waitForAttach[i]);
+void FA2::GetStatus(DFAStatus* head, std::vector<DFAStatus*>& acc){
+	for (DFAStatusMap::iterator it = head->map.begin();
+		it != head->map.end(); ++it){
+		if (it->second != head &&
+			std::find(acc.begin(), acc.end(), it->second) == acc.end()){
+			acc.push_back(it->second);
+			GetStatus(it->second, acc);
 		}
 	}
-	return ret;
 }
 std::vector<FA1::Status*> FA2::GetClosures(const std::vector<FA1::Status*>& list){
 	std::vector<FA1::Status*> ret = list;
@@ -146,33 +133,32 @@ bool FA2::ContainsAcceptStatus(const Config& config){
 }
 FA2::DFAStatus* FA2::ConstructDFA(FA1::Status* nfa){
 	if (!nfa)return 0;
-	std::vector<FA1::Status*>s = nfa->GetStatus();
 	Config config0;
 	config0.push_back(nfa);
 	ConfigContainer configContainer;
 	/* product这里我们只是需要构建映射，所以只要做对就可以了 */
+	Config* config0Ref = configContainer.GetReference(GetClosures(config0));
 	std::vector<Config*> product;
-	product.push_back(configContainer.GetReference(GetClosures(config0)));
+	product.push_back(config0Ref);
 	/* workingSet这里是要测试终止条件的。为了避免死循环还是小心为上。 */
-	ConfigSet workingSet;
-	workingSet.push_back(GetClosures(config0));
+	std::vector<Config*> workingSet;
+	workingSet.push_back(config0Ref);
 	typedef std::pair<Config*, char> TransitFrom;
 	typedef std::map<TransitFrom, Config*> TransitTo;
 	TransitTo map;
 	while (workingSet.size() > 0){
-		Config q = workingSet.back();
+		Config* q = workingSet.back();
 		workingSet.pop_back();
-		Config* qRef = configContainer.GetReference(q);
 		char c = '\0';
 		do{
-			Config t = GetClosures(Delta(q, c));
+			Config t = GetClosures(Delta(*q, c));
 			if (t.size() == 0)continue;
-			TransitFrom pair(qRef, c);
+			TransitFrom pair(q, c);
 			Config* tRef = configContainer.GetReference(t);
 			map[pair] = tRef;
 			if (!Contains(product, t)){
 				product.push_back(tRef);
-				workingSet.push_back(t);
+				workingSet.push_back(tRef);
 			}
 		} while (++c != '\0');
 	}
@@ -180,10 +166,11 @@ FA2::DFAStatus* FA2::ConstructDFA(FA1::Status* nfa){
 	DFAStatus** arr = new DFAStatus*[size];
 	std::map<Config*, int> mapToInteger;
 	for (size_t i = 0; i < size; ++i){
-		arr[i] = new DFAStatus;
-		mapToInteger[product[i]] = i;
+		DFAStatus*& item = arr[i];
+		item = new DFAStatus;
 		/* DFAStatus的默认构造函数并没有初始化accpet成员，我们在这里一并赋值了 */
-		arr[i]->accept = ContainsAcceptStatus(*product[i]);
+		item->accept = ContainsAcceptStatus(*product[i]);
+		mapToInteger[product[i]] = i;
 	}
 	for (TransitTo::iterator it = map.begin(); it != map.end(); ++it){
 		const TransitFrom& pair(it->first);
