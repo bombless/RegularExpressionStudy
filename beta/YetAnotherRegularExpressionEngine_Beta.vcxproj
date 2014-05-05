@@ -67,9 +67,11 @@
     <ClCompile Include="unittest.cpp" />
     <ClCompile Include="..\alpha\YetAnotherRegularExpressionEngine.cpp">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)alpha</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)alpha</ObjectFileName>
     </ClCompile>
     <ClCompile Include="YetAnotherRegularExpressionEngine.cpp">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)beta</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)beta</ObjectFileName>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

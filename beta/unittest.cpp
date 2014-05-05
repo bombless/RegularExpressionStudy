@@ -4,10 +4,10 @@
 #include <ctime>
 #ifdef _DEBUG
 #include <conio.h>
+#endif
 #ifdef _MSC_VER
 #include <intrin.h>
 #pragma intrinsic(__rdtsc)
-#endif
 #endif
 void expect(const char *expr, bool ex, bool ac){
 	const char* e = ex ? "true" : "false";
