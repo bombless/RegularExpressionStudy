@@ -23,14 +23,15 @@ private:
 	/* StatusMap是存储在状态中的，由非空字符指向其他状态的映射 */
 	typedef std::map<const char, Status*> StatusMap;
 	class Status{
+		/* 友元，状态机需要访问这些状态的内部 */
+		friend FA1;
+		friend FA2;		
 		/* 对状态的空字符映射 */
 		std::vector<Status*> closure;
 		/* 由非空字符映射到其他状态 */
 		StatusMap map;
 		/* 是否是一个接受状态 */
 		bool accept;
-		/* 友元，状态机需要访问这些状态的内部 */
-		friend FA1;
 		/* 制造一个空状态，它不含任何转移 */
 		Status();
 		/* 添加一个经由空串到目标状态的转移 */
