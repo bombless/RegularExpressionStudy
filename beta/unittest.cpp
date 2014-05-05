@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "YetAnotherRegularExpressionEngine.h"
+#include <ctime>
 #ifdef _DEBUG
 #include <conio.h>
 #endif
@@ -39,18 +40,31 @@ public:
 };
 class Test{
 	bool assert;
+	FA1 faCompare;
 	FA2 fa;
 public:
-	Test(const char *re, Expect e) :fa(re), assert(e.GetAssert()){
+	Test(const char *re, Expect e) :fa(re), faCompare(re), assert(e.GetAssert()){
 		std::cout << "Testing RE /" << re << "/ :" << std::endl;
 	}
 	Test& operator ,(const char*p){
+		using namespace std;
 		if (*p == '\0'){
 			expect("<Empty String>", assert, fa << p);
 		}
 		else{
 			expect(p, assert, fa << p);
 		}
+		time_t tm;
+		tm = time(0);
+		for (int i = 0; i < 100000; ++i){
+			faCompare << p;
+		}
+		cout << "nfa took " << (time(0) - tm) << " seconds to calulate for e5 times" << endl;
+		tm = time(0);
+		for (int i = 0; i < 100000; ++i){
+			fa << p;
+		}
+		cout << "dfa took " << (time(0) - tm) << " seconds to calulate for e5 times" << endl;
 		return *this;
 	}
 };
