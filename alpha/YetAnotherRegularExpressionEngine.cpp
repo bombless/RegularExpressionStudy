@@ -283,19 +283,13 @@ bool FA1::operator << (const char* pc){
 	for (; *pc != '\0'; pc += 1){
 		/* 将上一阶段找到的空串转移状态添加到追踪流中 */
 		for (size_t i = 0; i < waitForAttach.size(); ++i){
-			p.push_back(waitForAttach[i]);
+			if (std::find(p.begin(), p.end(), waitForAttach[i]) == p.end()){
+				p.push_back(waitForAttach[i]);
+			}
 		}
 		/* 清空等待队列，免得重复添加 */
 		waitForAttach = std::vector < Status* >();
 		for (size_t i = 0; i < p.size(); ++i){
-			/* 如果有一个流提前达到了终止状态，这个流已经失败了 */
-			if (p[i]->accept){
-				/* 如果只剩最后一个失败的流，说明整个RE命中失败 */
-				if (p.size() == 1)return false;
-				p.erase(std::remove(p.begin(), p.end(), p[i]), p.end());
-				i -= 1;
-				continue;
-			}
 			/* 如果找到一个可行的转移，那么这个流需要转移到下一个状态 */
 			if (p[i]->map.find(*pc) != p[i]->map.end()){
 				p[i] = p[i]->map[*pc];

@@ -69,8 +69,8 @@ int main(){
 	Test("ab|a", Expect(false)), "b", "c", "abc";
 	Test("a|bc", Expect(true)), "a", "bc";
 	Test("a|bc", Expect(false)), "ab", "c", "";
-	Test("a*", Expect(true)), "", "a", "aaa";
-	Test("a*", Expect(false)), "b", "ab", "ba";
+	Test("a*", Expect(true)), "", "a", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+	Test("a*", Expect(false)), "b", "ab", "ba", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab";
 	Test("ab*", Expect(true)), "a", "abb";
 	Test("ab*", Expect(false)), "b", "bb", "bc", "abc", "";
 	Test("a*b", Expect(true)), "b", "aaab", "ab";
