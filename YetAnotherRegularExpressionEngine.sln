@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YetAnotherRegularExpressionEngine_Alpha", "alpha\YetAnotherRegularExpressionEngine_Alpha.vcxproj", "{C02F44F1-434F-4D49-85AC-99743AF41AFD}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YetAnotherRegularExpressionEngine_Beta", "beta\YetAnotherRegularExpressionEngine_Beta.vcxproj", "{5A47E4F5-83AC-4451-BE3B-26A9693FD33D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -15,6 +17,10 @@ Global
 		{C02F44F1-434F-4D49-85AC-99743AF41AFD}.Debug|Win32.Build.0 = Debug|Win32
 		{C02F44F1-434F-4D49-85AC-99743AF41AFD}.Release|Win32.ActiveCfg = Release|Win32
 		{C02F44F1-434F-4D49-85AC-99743AF41AFD}.Release|Win32.Build.0 = Release|Win32
+		{5A47E4F5-83AC-4451-BE3B-26A9693FD33D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5A47E4F5-83AC-4451-BE3B-26A9693FD33D}.Debug|Win32.Build.0 = Debug|Win32
+		{5A47E4F5-83AC-4451-BE3B-26A9693FD33D}.Release|Win32.ActiveCfg = Release|Win32
+		{5A47E4F5-83AC-4451-BE3B-26A9693FD33D}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
