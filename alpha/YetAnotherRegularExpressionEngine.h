@@ -1,12 +1,14 @@
-#ifndef YetAnotherRegularExpressionEngine
-#define YetAnotherRegularExpressionEngine
+#ifndef YetAnotherRegularExpressionEngine_Alpha
+#define YetAnotherRegularExpressionEngine_Alpha
 #include <map>
 #include <vector>
 #include <algorithm>
 #include <memory>
 #include <exception>
 #include <memory.h>
+class FA2;
 class FA1{
+	friend FA2;
 public:
 	/* 公开的构造函数，接受一个字符串，得到一个状态机 */
 	FA1(const char* RE);
@@ -14,6 +16,7 @@ public:
 	~FA1();
 	/* 测试一个字符串 */
 	bool operator << (const char* tested);
+	class SyntaxErrorException :std::exception{};
 private:
 	/* 克服前向引用问题。这里，每一个状态需要指向其他的状态 */
 	class Status;
@@ -68,7 +71,5 @@ private:
 	static int Free(Status*);
 	/* 查找管道符号 */
 	static int FindPipe(const char* to_search);
-public:
-	class SyntaxErrorException :std::exception{};
 };
 #endif
