@@ -54,12 +54,12 @@ public:
 		return *this;
 	}
 };
-int main(){
+int _main(){
 	Test("a*", Expect(true)), "";
 	std::cout << "hi";
 	return 0;
 }
-int _main(){
+int main(){
 	Test("", Expect(true)), "";
 	Test("", Expect(false)), "a";
 	Test("a", Expect(true)), "a";

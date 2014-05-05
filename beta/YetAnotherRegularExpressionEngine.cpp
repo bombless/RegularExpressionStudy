@@ -38,7 +38,7 @@ std::vector<FA2::DFAStatus*> FA2::GetStatus(DFAStatus* head){
 std::vector<FA1::Status*> FA2::GetClosures(const std::vector<FA1::Status*>& list){
 	std::vector<FA1::Status*> ret = list;
 	for (size_t i = 0; i < list.size(); ++i){
-		std::vector<FA1::Status*> innerList = list[i]->GetClosures();
+		std::vector<FA1::Status*> innerList = list[i]->GetClosures(list);
 		for (size_t i = 0; i < innerList.size(); ++i){
 			if (std::find(ret.begin(), ret.end(), innerList[i]) == ret.end()){
 				ret.push_back(innerList[i]);
@@ -146,12 +146,13 @@ bool FA2::ContainsAcceptStatus(const Config& config){
 }
 FA2::DFAStatus* FA2::ConstructDFA(FA1::Status* nfa){
 	if (!nfa)return 0;
+	std::vector<FA1::Status*>s = nfa->GetStatus();
 	Config config0;
 	config0.push_back(nfa);
 	ConfigContainer configContainer;
 	/* product这里我们只是需要构建映射，所以只要做对就可以了 */
 	std::vector<Config*> product;
-	product.push_back(configContainer.GetReference(config0));
+	product.push_back(configContainer.GetReference(GetClosures(config0)));
 	/* workingSet这里是要测试终止条件的。为了避免死循环还是小心为上。 */
 	ConfigSet workingSet;
 	workingSet.push_back(GetClosures(config0));
