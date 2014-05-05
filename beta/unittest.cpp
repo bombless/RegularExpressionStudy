@@ -4,6 +4,10 @@
 #include <ctime>
 #ifdef _DEBUG
 #include <conio.h>
+#ifdef _MSC_VER
+#include <intrin.h>
+#pragma intrinsic(__rdtsc)
+#endif
 #endif
 void expect(const char *expr, bool ex, bool ac){
 	const char* e = ex ? "true" : "false";
@@ -54,17 +58,34 @@ public:
 		else{
 			expect(p, assert, fa << p);
 		}
-		time_t tm;
-		tm = time(0);
-		for (int i = 0; i < 100000; ++i){
+#ifdef _MSC_VER
+		unsigned __int64 start;
+		start = __rdtsc();
+		for (int i = 0; i < 999; ++i){
 			faCompare << p;
 		}
-		cout << "nfa took " << (time(0) - tm) << " seconds to calulate for e5 times" << endl;
-		tm = time(0);
-		for (int i = 0; i < 100000; ++i){
+		unsigned __int64 time1 = __rdtsc() - start;
+		cout << "nfa took " << time1 << " clock cycles to calulate for 999 times" << endl;
+		start = __rdtsc();
+		for (int i = 0; i < 999; ++i){
 			fa << p;
 		}
-		cout << "dfa took " << (time(0) - tm) << " seconds to calulate for e5 times" << endl;
+		unsigned __int64 time2 = __rdtsc() - start;
+		cout << "dfa took " << time2 << " clock cycles to calulate for 999 times" << endl;
+		cout << "factor: " << time1 / time2 << endl;
+#else
+		time_t tm;
+		tm = time(0);
+		for (int i = 0; i < 1000000; ++i){
+			faCompare << p;
+		}
+		cout << "nfa took " << (time(0) - tm) << " seconds to calulate for e6 times" << endl;
+		tm = time(0);
+		for (int i = 0; i < 1000000; ++i){
+			fa << p;
+		}
+		cout << "dfa took " << (time(0) - tm) << " seconds to calulate for e6 times" << endl;
+#endif
 		return *this;
 	}
 };
