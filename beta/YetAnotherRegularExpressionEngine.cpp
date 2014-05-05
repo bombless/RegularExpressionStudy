@@ -95,12 +95,6 @@ bool FA2::Equals(const Config& lhs, const Config& rhs){
 	delete rhsArray;
 	return true;
 }
-bool FA2::Contains(const ConfigSet& set, const Config& config){
-	for (size_t i = 0; i < set.size(); ++i){
-		if (Equals(set[i], config))return true;
-	}
-	return false;
-}
 bool FA2::Contains(const std::vector<Config*>& set, const Config& item){
 	for (size_t i = 0; i < set.size(); ++i){
 		if (Equals(item, *set[i])){

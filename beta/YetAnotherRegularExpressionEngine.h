@@ -17,8 +17,6 @@ class FA2{
 	;
 	/* 配置是一个NFA状态集 */
 	typedef std::vector<FA1::Status*> Config;
-	/* 配置集 */
-	typedef std::vector<Config> ConfigSet;
 	class ConfigContainer{
 		std::vector<Config*> pool;
 	public:
@@ -26,15 +24,12 @@ class FA2{
 		~ConfigContainer();
 	};
 	DFAStatus* s0;
-	std::vector<DFAStatus*> listForDeletion;
 	static void GetStatus(DFAStatus*, std::vector<DFAStatus*>&);
 	static std::vector<FA1::Status*> GetClosures(const std::vector<FA1::Status*>&);
 	static Config Delta(const Config&, char);
 	static inline void SwapIfLessThan(FA1::Status*&, FA1::Status*&);
 	static inline bool Equals(const Config&, const Config&);
-	static bool Contains(const ConfigSet&, const Config&);
 	static bool Contains(const std::vector<Config*>&, const Config&);
-	static ConfigSet::iterator GetReferrence(ConfigSet&);
 	static DFAStatus* ConstructDFA(FA1::Status*);
 	static void Free(DFAStatus*);
 	static bool ContainsAcceptStatus(const Config&);
