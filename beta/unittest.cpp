@@ -5,7 +5,7 @@
 #ifdef _DEBUG
 #include <conio.h>
 #endif
-#ifdef _MSC_VER
+#if defined(_MSC_VER) && (_M_IX86 >= 500 || defined(_M_AMD64)) 
 #include <intrin.h>
 #pragma intrinsic(__rdtsc)
 #endif
@@ -58,20 +58,20 @@ public:
 		else{
 			expect(p, assert, fa << p);
 		}
-#ifdef _MSC_VER
+#if defined(_MSC_VER) && (_M_IX86 >= 500 || defined(_M_AMD64)) 
 		unsigned __int64 start;
 		start = __rdtsc();
-		for (int i = 0; i < 999; ++i){
+		for (int i = 0; i < 9999; ++i){
 			faCompare << p;
 		}
 		unsigned __int64 time1 = __rdtsc() - start;
-		cout << "nfa took " << time1 << " clock cycles to calulate for 999 times" << endl;
+		cout << "nfa took " << time1 << " clock cycles to calulate for 9999 times" << endl;
 		start = __rdtsc();
-		for (int i = 0; i < 999; ++i){
+		for (int i = 0; i < 9999; ++i){
 			fa << p;
 		}
 		unsigned __int64 time2 = __rdtsc() - start;
-		cout << "dfa took " << time2 << " clock cycles to calulate for 999 times" << endl;
+		cout << "dfa took " << time2 << " clock cycles to calulate for 9999 times" << endl;
 		cout << "factor: " << time1 / time2 << endl;
 #else
 		time_t tm;
