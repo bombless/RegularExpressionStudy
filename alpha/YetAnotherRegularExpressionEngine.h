@@ -37,16 +37,19 @@ private:
 		/* 添加一个经由空串到目标状态的转移 */
 		void SetClosure(Status*);
 		/* 获取一个状态下可以经由空串转移到的状态，附加到参数上并返回 */
-		std::vector<Status*> GetClosures(std::vector<FA1::Status*> = std::vector<FA1::Status*>());
+		std::vector<Status*>
+		GetClosures(std::vector<Status*> = std::vector<Status*>());
 		/* 连接2个RE */
 		Status* Concat(Status*);
 		/* 科林闭包（例如"a*"） */
 		Status* Kleene();
 		/* 正则表达式中的或(又称管道符号) */
 		Status* Pipe(Status*);
-		/* 以this作为NFA图的起始状态，给其终止状态添加一个由空串转移到目标状态的转移并返回原终止状态 */
+		/* 以this作为NFA图的起始状态，
+			给其终止状态添加一个由空串转移到目标状态的转移并返回原终止状态 */
 		Status* ConnectTo(Status* target_status);
-		/* 以this作为NFA图的起始状态，给其终止状态添加一个由空串转移到数个指定状态的转移并返回原终止状态 */
+		/* 以this作为NFA图的起始状态，
+			给其终止状态添加一个由空串转移到数个指定状态的转移并返回原终止状态 */
 		Status* ConnectTo(std::vector<Status*> list_of_target_status);
 		/* 以this作为NFA图的起始状态，查找终止状态 */
 		Status* FindAcceptStatus();
