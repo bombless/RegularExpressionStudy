@@ -18,5 +18,6 @@ gamma版还将支持最小化的DFA，运行效率将进一步提升。
 所有代码通过以下环境的编译、运行测试：
 - Microsoft Visual Studio Express 2013 for Windows Desktop
 - gcc version 4.8.1 (tdm64-2)
+- gcc version 4.6.3 (Ubuntu/Linaro 4.6.3-1ubuntu5)
 
 本项目采用 MIT 授权，use it at your own risk。
