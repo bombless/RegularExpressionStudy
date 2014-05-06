@@ -7,6 +7,8 @@
 #if defined(_MSC_VER) && (_M_IX86 >= 500 || defined(_M_AMD64)) 
 #include <intrin.h>
 #pragma intrinsic(__rdtsc)
+#define rdtsc __rdtsc
+typedef unsigned __int64 rdtsc_t;
 #else
 #include <limits>
 #include <ctime>
@@ -63,20 +65,20 @@ public:
 		else{
 			expect(p, assert, fa << p);
 		}
-#if defined(_MSC_VER) && (_M_IX86 >= 500 || defined(_M_AMD64)) 
+#ifdef rdtsc
 		unsigned __int64 start;
-		start = __rdtsc();
+		start = rdtsc();
 		for (int i = 0; i < 9999; ++i){
 			faCompare << p;
 		}
-		unsigned __int64 time1 = __rdtsc() - start;
+		rdtsc_t time1 = rdtsc() - start;
 		cout << "nfa took " << time1
 			<< " clock cycles to calulate for 9999 times" << endl;
-		start = __rdtsc();
+		start = rdtsc();
 		for (int i = 0; i < 9999; ++i){
 			fa << p;
 		}
-		unsigned __int64 time2 = __rdtsc() - start;
+		rdtsc_t time2 = rdtsc() - start;
 		cout << "dfa took " << time2 <<
 		" clock cycles to calulate for 9999 times" << endl;
 		cout << "factor: " << time1 / time2 << endl;
