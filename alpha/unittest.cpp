@@ -11,7 +11,8 @@ void expect(const char *expr, bool ex, bool ac){
 		std::cout << "passed: " << expr << " = " << e << std::endl;
 	}
 	else{
-		std::cout << "!!error: expect " << expr << " = " << e << ", get " << a << " instead." << std::endl;
+		std::cout << "!!error: expect " << expr << " = " << e <<
+		", get " << a << " instead." << std::endl;
 	}
 }
 class Expect{
@@ -47,7 +48,8 @@ public:
 			fa << p;
 		}
 		catch (FA1::SyntaxErrorException&){
-			std::cout << "passed: expected exception received for RE /" << re << "/" << std::endl;
+			std::cout << "passed: expected exception received for RE"  <<
+			" /" << re << "/" << std::endl;
 			return *this;
 		}
 		std::cout << "!!error: expected exception was not caught." << std::endl;
@@ -69,8 +71,10 @@ int main(){
 	Test("ab|a", Expect(false)), "b", "c", "abc";
 	Test("a|bc", Expect(true)), "a", "bc";
 	Test("a|bc", Expect(false)), "ab", "c", "";
-	Test("a*", Expect(true)), "", "a", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-	Test("a*", Expect(false)), "b", "ab", "ba", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab";
+	Test("a*", Expect(true)), "", "a",
+		"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+	Test("a*", Expect(false)), "b", "ab", "ba",
+		"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab";
 	Test("ab*", Expect(true)), "a", "abb";
 	Test("ab*", Expect(false)), "b", "bb", "bc", "abc", "";
 	Test("a*b", Expect(true)), "b", "aaab", "ab";
