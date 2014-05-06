@@ -1,13 +1,14 @@
 #include <iostream>
 #include <string>
 #include "YetAnotherRegularExpressionEngine.h"
-#include <ctime>
 #ifdef _DEBUG
 #include <conio.h>
 #endif
 #if defined(_MSC_VER) && (_M_IX86 >= 500 || defined(_M_AMD64)) 
 #include <intrin.h>
 #pragma intrinsic(__rdtsc)
+#else
+#include <ctime>
 #endif
 void expect(const char *expr, bool ex, bool ac){
 	const char* e = ex ? "true" : "false";
