@@ -10,7 +10,6 @@
 #define rdtsc __rdtsc
 typedef unsigned __int64 rdtsc_t;
 #else
-#include <limits>
 #include <ctime>
 #endif
 void expect(const char *expr, bool ex, bool ac){
@@ -86,19 +85,19 @@ public:
 #else
 		time_t tm;
 		tm = time(0);
-		for (int i = 0; i < numeric_limits<int>::max(); ++i){
+		for (int i = 0; i < 9999999; ++i){
 			faCompare << p;
 		}
 		cout << "nfa took " << (time(0) - tm)
 		<< " seconds to calculate for " <<
-		numeric_limits<int>::max() << " times" << endl;
+		9999999 << " times" << endl;
 		tm = time(0);
-		for (int i = 0; i < numeric_limits<int>::max(); ++i){
+		for (int i = 0; i < 9999999; ++i){
 			fa << p;
 		}
 		cout << "dfa took " << (time(0) - tm) <<
 		" seconds to calculate for " <<
-		numeric_limits<int>::max() << " times" << endl;
+		9999999 << " times" << endl;
 #endif
 		return *this;
 	}
