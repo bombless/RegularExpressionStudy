@@ -1,6 +1,6 @@
 #include "YetAnotherRegularExpressionEngine.h"
 FA1::Status::Status()
-/* ¼òµ¥µÄÖÆÔìÒ»¸öÃ»ÓĞÈÎºÎ×ªÒÆµÄ¿Õ×´Ì¬ */
+/* ç®€å•çš„åˆ¶é€ ä¸€ä¸ªæ²¡æœ‰ä»»ä½•è½¬ç§»çš„ç©ºçŠ¶æ€ */
 :closure(), accept(false), map(){}
 FA1::Status* FA1::Status::FindAcceptStatus(){
 	std::vector<Status*> list = GetStatus();
@@ -10,17 +10,17 @@ FA1::Status* FA1::Status::FindAcceptStatus(){
 	throw("bad!");
 }
 void FA1::Status::SetClosure(Status* rhs){
-	/* ¸ø±¾×´Ì¬Ìí¼ÓÒ»¸ö¾­ÓÉ¿Õ´®µ½Ä¿±êµÄ×ªÒÆ */
+	/* ç»™æœ¬çŠ¶æ€æ·»åŠ ä¸€ä¸ªç»ç”±ç©ºä¸²åˆ°ç›®æ ‡çš„è½¬ç§» */
 	closure.push_back(rhs);
 }
 std::vector<FA1::Status*> FA1::Status::GetClosures(std::vector<FA1::Status*> acc){
-	/* ÈôÃ»ÓĞ¿Õ´®×ªÒÆÔòÖ±½Ó·µ»Ø */
+	/* è‹¥æ²¡æœ‰ç©ºä¸²è½¬ç§»åˆ™ç›´æ¥è¿”å› */
 	if (closure.size() == 0){
 		return closure;
 	}
 	bool add = false;
 	std::vector<Status*> ret;
-	/* ½«±¾×´Ì¬µÄ¿Õ´®×ªÒÆ×´Ì¬¸´ÖÆµ½ret±äÁ¿ */
+	/* å°†æœ¬çŠ¶æ€çš„ç©ºä¸²è½¬ç§»çŠ¶æ€å¤åˆ¶åˆ°retå˜é‡ */
 	for (size_t i = 0; i < closure.size(); ++i){
 		if (std::find(acc.begin(), acc.end(), closure[i]) == acc.end()){
 			ret.push_back(closure[i]);
@@ -30,7 +30,7 @@ std::vector<FA1::Status*> FA1::Status::GetClosures(std::vector<FA1::Status*> acc
 	}
 	if (!add)return ret;
 	for (size_t i = 0; i < closure.size(); ++i){
-		/* ½«¿Õ´®×ªÒÆ×´Ì¬ÏÂµÄ¿Õ´®×ªÒÆ×´Ì¬Ò²¸´ÖÆµ½ret±äÁ¿ */
+		/* å°†ç©ºä¸²è½¬ç§»çŠ¶æ€ä¸‹çš„ç©ºä¸²è½¬ç§»çŠ¶æ€ä¹Ÿå¤åˆ¶åˆ°retå˜é‡ */
 		std::vector<Status*> r = closure[i]->GetClosures(acc);
 		for (size_t j = 0; j < r.size(); ++j){
 			if (r[j] != this){
@@ -41,13 +41,13 @@ std::vector<FA1::Status*> FA1::Status::GetClosures(std::vector<FA1::Status*> acc
 	return ret;
 }
 FA1::Status* FA1::Status::ConnectTo(Status* s){
-	/* ½«×´Ì¬°ü×°µ½ÏòÁ¿Àï£¬¸øÁíÒ»¸öÖØÔØº¯Êı´¦Àí */
+	/* å°†çŠ¶æ€åŒ…è£…åˆ°å‘é‡é‡Œï¼Œç»™å¦ä¸€ä¸ªé‡è½½å‡½æ•°å¤„ç† */
 	std::vector<Status*> v;
 	v.push_back(s);
 	return ConnectTo(v);
 }
 FA1::Status* FA1::Status::ConnectTo(std::vector<Status*> v){
-	/* ½ÓÊÜ×´Ì¬¾­ÓÉ¿Õ´®×ªÒÆµ½Ä¿±ê */
+	/* æ¥å—çŠ¶æ€ç»ç”±ç©ºä¸²è½¬ç§»åˆ°ç›®æ ‡ */
 	Status* acceptStatus = FindAcceptStatus();
 	acceptStatus->accept = false;
 	for (size_t i = 0; i < v.size(); ++i){
@@ -60,11 +60,11 @@ FA1::Status* FA1::Status::Concat(Status* rhs){
 	Status* retAcceptStatus = ret->FindAcceptStatus();
 	Status* rhsCopy = rhs->DeepCopy();
 	Status* rhsCopyAcceptStatus = rhsCopy->FindAcceptStatus();
-	/* ½«×óÊÖ×´Ì¬»úµÄ½ÓÊÜ×´Ì¬¾­ÓÉ¿Õ´®×ªÒÆµ½ÓÒÊÖ×´Ì¬»úµÄÆğÊ¼×´Ì¬ */
+	/* å°†å·¦æ‰‹çŠ¶æ€æœºçš„æ¥å—çŠ¶æ€ç»ç”±ç©ºä¸²è½¬ç§»åˆ°å³æ‰‹çŠ¶æ€æœºçš„èµ·å§‹çŠ¶æ€ */
 	ret->ConnectTo(rhsCopy);
-	/* ²úÎïµÄ½ÓÊÜ×´Ì¬²»ÔÙÊÇ½ÓÊÜ×´Ì¬ */
+	/* äº§ç‰©çš„æ¥å—çŠ¶æ€ä¸å†æ˜¯æ¥å—çŠ¶æ€ */
 	retAcceptStatus->accept = false;
-	/* rhsCopy²»ÔÙÓµÓĞËüµÄÄÇĞ©½Úµã */
+	/* rhsCopyä¸å†æ‹¥æœ‰å®ƒçš„é‚£äº›èŠ‚ç‚¹ */
 	rhsCopy = 0;
 	rhsCopyAcceptStatus = 0;
 	return ret;
@@ -72,19 +72,19 @@ FA1::Status* FA1::Status::Concat(Status* rhs){
 FA1::Status* FA1::Status::Pipe(Status* rhs){
 	Status* lhsCopy = this->DeepCopy();
 	Status* rhsCopy = rhs->DeepCopy();
-	/* ²úÎï×Ô¼º»áÓĞÒ»¸öÆğÊ¼×´Ì¬ */
+	/* äº§ç‰©è‡ªå·±ä¼šæœ‰ä¸€ä¸ªèµ·å§‹çŠ¶æ€ */
 	Status* ret(new Status);
-	/* ²úÎïµÄÆğÊ¼×´Ì¬¾­ÓÉÒ»¸ö¿Õ´®×ªÒÆµ½×óÓÒÊÖÁ½¸ö×´Ì¬»úµÄÆğÊ¼×´Ì¬ */
+	/* äº§ç‰©çš„èµ·å§‹çŠ¶æ€ç»ç”±ä¸€ä¸ªç©ºä¸²è½¬ç§»åˆ°å·¦å³æ‰‹ä¸¤ä¸ªçŠ¶æ€æœºçš„èµ·å§‹çŠ¶æ€ */
 	ret->SetClosure(lhsCopy);
 	ret->SetClosure(rhsCopy);
-	/* ²úÎïµÄÖÕÖ¹×´Ì¬ÊÇÓÉ×óÓÒÊÖÁ½¸ö×´Ì¬»ú¾­ÓÉÒ»¸ö¿Õ´®×ªÒÆ¹ıÈ¥µÄ */
+	/* äº§ç‰©çš„ç»ˆæ­¢çŠ¶æ€æ˜¯ç”±å·¦å³æ‰‹ä¸¤ä¸ªçŠ¶æ€æœºç»ç”±ä¸€ä¸ªç©ºä¸²è½¬ç§»è¿‡å»çš„ */
 	Status* f(new Status);
 	f->accept = true;
-	/* Îª×óÓÒÊÖ2¸ö×´Ì¬»úµÄ¿½±´¼şÌí¼Ó¿Õ´®×ªÒÆ£¬²¢È¡ÏûÔ­À´µÄÖÕÖ¹×´Ì¬±ê¼Ç */
+	/* ä¸ºå·¦å³æ‰‹2ä¸ªçŠ¶æ€æœºçš„æ‹·è´ä»¶æ·»åŠ ç©ºä¸²è½¬ç§»ï¼Œå¹¶å–æ¶ˆåŸæ¥çš„ç»ˆæ­¢çŠ¶æ€æ ‡è®° */
 	lhsCopy->ConnectTo(f);
-	/* ×¢Òâ£¬´Ë´¦rhsCopyµÄ½ÚµãÒÑ¾­±»ret¹²ÏíÁË */
+	/* æ³¨æ„ï¼Œæ­¤å¤„rhsCopyçš„èŠ‚ç‚¹å·²ç»è¢«retå…±äº«äº† */
 	rhsCopy->ConnectTo(f);
-	/* ÖÁ´ËrhsCopyÓëlhsCopyµÄËùÓĞ½ÚµãÒÑ¾­±»retËù³ÖÓĞ */
+	/* è‡³æ­¤rhsCopyä¸lhsCopyçš„æ‰€æœ‰èŠ‚ç‚¹å·²ç»è¢«retæ‰€æŒæœ‰ */
 	lhsCopy = rhsCopy = 0;
 	return ret;
 }
@@ -92,17 +92,17 @@ FA1::Status* FA1::Status::Kleene(){
 	Status* s(new Status);
 	Status* e(new Status);
 	std::vector<Status*> t;
-	/* Îª×´Ì¬»úµÄÖÕÖ¹×´Ì¬Ìí¼Ó¾­ÓÉ¿Õ´®µ½ĞÂµÄÖÕÖ¹×´Ì¬ºÍÔ­ÓĞµÄÆğÊ¼×´Ì¬µÄ×ªÒÆ */
+	/* ä¸ºçŠ¶æ€æœºçš„ç»ˆæ­¢çŠ¶æ€æ·»åŠ ç»ç”±ç©ºä¸²åˆ°æ–°çš„ç»ˆæ­¢çŠ¶æ€å’ŒåŸæœ‰çš„èµ·å§‹çŠ¶æ€çš„è½¬ç§» */
 	Status* lhsCopy = this->DeepCopy();
 	t.push_back(lhsCopy);
 	t.push_back(e);
 	lhsCopy->ConnectTo(t);
-	/* eÎªĞÂµÄÖÕÖ¹×´Ì¬ */
+	/* eä¸ºæ–°çš„ç»ˆæ­¢çŠ¶æ€ */
 	e->accept = true;
-	/* ÎªĞÂµÄÆğÊ¼×´Ì¬Ìí¼Ó¾­ÓÉ¿Õ´®µ½Ô­ÆğÊ¼×´Ì¬ÒÔ¼°ĞÂÖÕÖ¹×´Ì¬µÄ×ªÒÆ */
+	/* ä¸ºæ–°çš„èµ·å§‹çŠ¶æ€æ·»åŠ ç»ç”±ç©ºä¸²åˆ°åŸèµ·å§‹çŠ¶æ€ä»¥åŠæ–°ç»ˆæ­¢çŠ¶æ€çš„è½¬ç§» */
 	s->SetClosure(lhsCopy);
 	s->SetClosure(e);
-	/* sÎªĞÂµÄÆğÊ¼×´Ì¬ */
+	/* sä¸ºæ–°çš„èµ·å§‹çŠ¶æ€ */
 	return s;
 }
 FA1::Status* FA1::Status::DeepCopy(){
@@ -110,59 +110,59 @@ FA1::Status* FA1::Status::DeepCopy(){
 	const std::vector<Status*> list = this->GetStatus();
 	size_t size = list.size();
 	std::map<const Status*const, int> mapToInteger;
-	/* ÎÒÃÇĞèÒª¸øNFAÍ¼ÔìÒ»¸öÓ°×ÓÒÔ±ã°ÑÓ³Éä¹ØÏµ¿Ì»­³öÀ´ */
+	/* æˆ‘ä»¬éœ€è¦ç»™NFAå›¾é€ ä¸€ä¸ªå½±å­ä»¥ä¾¿æŠŠæ˜ å°„å…³ç³»åˆ»ç”»å‡ºæ¥ */
 	std::vector<StatusShadow> listShadow;
-	/* Ê×ÏÈ¸øËùÓĞµÄ½Úµã±àÒ»¸öºÅ */
+	/* é¦–å…ˆç»™æ‰€æœ‰çš„èŠ‚ç‚¹ç¼–ä¸€ä¸ªå· */
 	for (size_t i = 0; i < size; ++i){
 		mapToInteger[list[i]] = i;
 	}
 	for (size_t i = 0; i < size; ++i){
-		/* ÎÒÃÇ¸ø¿Õ´®×ªÒÆÔìÓ° */
+		/* æˆ‘ä»¬ç»™ç©ºä¸²è½¬ç§»é€ å½± */
 		std::vector<Status*> iClosures = list[i]->closure;
 		std::vector<int> closureShadow;
 		for (size_t j = 0; j < iClosures.size(); ++j){
 			int index = mapToInteger[iClosures[j]];
 			closureShadow.push_back(index);
 		}
-		/* ¸ø·Ç¿Õ×Ö·ûÓ³ÉäÔìÓ° */
+		/* ç»™éç©ºå­—ç¬¦æ˜ å°„é€ å½± */
 		StatusMap iMap = list[i]->map;
 		std::map<char, int> mapShadow;
 		for (StatusMap::const_iterator it = iMap.begin(); it != iMap.end(); ++it){
 			int index = mapToInteger[it->second];
 			mapShadow[it->first] = index;
 		}
-		/* ÖÁ´ËÕâ¸ö½ÚµãµÄÓ°×Ó¾ÍÔìºÃÁË */
+		/* è‡³æ­¤è¿™ä¸ªèŠ‚ç‚¹çš„å½±å­å°±é€ å¥½äº† */
 		listShadow.push_back(StatusShadow(closureShadow, mapShadow));
 	}
-	/* ÔìÒ»¸ö³Ø×Ó£¬Éî¿½±´³öµÄ¶ÔÏóÏÈ·Å³Ø×ÓÀï */
+	/* é€ ä¸€ä¸ªæ± å­ï¼Œæ·±æ‹·è´å‡ºçš„å¯¹è±¡å…ˆæ”¾æ± å­é‡Œ */
 	Status **pointerPool = new Status*[size];
 	for (size_t i = 0; i < size; ++i){
 		pointerPool[i] = new Status;
 	}
-	/* ĞèÒª¸ø¿½±´³öµÄNFAÍ¼±ê¼ÇÖÕÖ¹×´Ì¬£¬ËùÒÔÎÒÃÇÒªÄÃµ½Ô­ÖÕÖ¹×´Ì¬µÄµØÖ· */
+	/* éœ€è¦ç»™æ‹·è´å‡ºçš„NFAå›¾æ ‡è®°ç»ˆæ­¢çŠ¶æ€ï¼Œæ‰€ä»¥æˆ‘ä»¬è¦æ‹¿åˆ°åŸç»ˆæ­¢çŠ¶æ€çš„åœ°å€ */
 	const Status*const acceptStatus = FindAcceptStatus();
 	for (size_t i = 0; i < size; ++i){
-		/* ×°ÅäµÚi¸ö×´Ì¬µÄÓ³Éä¹ØÏµ */
+		/* è£…é…ç¬¬iä¸ªçŠ¶æ€çš„æ˜ å°„å…³ç³» */
 		Status& node = *pointerPool[i];
-		/* ¸ù¾İÓ°×Ó¹¹Ôì¿Õ×Ö·ûÓ³Éä */
+		/* æ ¹æ®å½±å­æ„é€ ç©ºå­—ç¬¦æ˜ å°„ */
 		std::vector<Status*>& nodeClosure = node.closure;
 		const std::vector<int>& iClosure = listShadow[i].closure;
 		for (size_t j = 0; j < iClosure.size(); ++j){
 			int index = iClosure[j];
 			nodeClosure.push_back(pointerPool[index]);
 		}
-		/* ¸ù¾İÓ°×Ó¹¹Ôì·Ç¿Õ×Ö·ûÓ³Éä */
+		/* æ ¹æ®å½±å­æ„é€ éç©ºå­—ç¬¦æ˜ å°„ */
 		StatusMap& nodeMap = node.map;
 		const std::map<char, int>& iMap = listShadow[i].map;
 		for (std::map<char, int>::const_iterator it = iMap.begin();
 			it != iMap.end(); ++it){
 			nodeMap[it->first] = pointerPool[it->second];
 		}
-		/* ¼ÇÂ¼ÆğÊ¼×´Ì¬×÷Îª·µ»ØÖµ£¬Í¨³£ÊÇÁĞ±íÖĞµÚÒ»¸ö½Úµã */
+		/* è®°å½•èµ·å§‹çŠ¶æ€ä½œä¸ºè¿”å›å€¼ï¼Œé€šå¸¸æ˜¯åˆ—è¡¨ä¸­ç¬¬ä¸€ä¸ªèŠ‚ç‚¹ */
 		if (mapToInteger[this] == i){
 			ret = &node;
 		}
-		/* ´òÖÕÖ¹×´Ì¬±ê¼Ç */
+		/* æ‰“ç»ˆæ­¢çŠ¶æ€æ ‡è®° */
 		if (mapToInteger[acceptStatus] == i){
 			node.accept = true;
 		}
@@ -171,13 +171,13 @@ FA1::Status* FA1::Status::DeepCopy(){
 	return ret;
 }
 FA1::Status* FA1::ConstructUnitAutomachine(){
-	/* ÒòÎª×ÔÉí¾ÍÊÇ½ÓÊÜ×´Ì¬£¬ËùÒÔÕâÀï¾Í²»Ìí¼ÓÓÉ¿Õ´®µ½×ÔÉíµÄ×ªÒÆÁË */
+	/* å› ä¸ºè‡ªèº«å°±æ˜¯æ¥å—çŠ¶æ€ï¼Œæ‰€ä»¥è¿™é‡Œå°±ä¸æ·»åŠ ç”±ç©ºä¸²åˆ°è‡ªèº«çš„è½¬ç§»äº† */
 	Status* ret(new Status);
 	ret->accept = true;
 	return ret;
 }
 FA1::Status* FA1::ConstructSingleTransitionAutomachine(char c){
-	/* µ¥×Ö·ûRE£¬Ö»ĞèÌí¼ÓÒ»¸ö×ªÒÆ */
+	/* å•å­—ç¬¦REï¼Œåªéœ€æ·»åŠ ä¸€ä¸ªè½¬ç§» */
 	if (c == '*' || c == '|')return 0;
 	Status* s0(new Status);
 	Status* sf(new Status);
@@ -186,17 +186,17 @@ FA1::Status* FA1::ConstructSingleTransitionAutomachine(char c){
 	return s0;
 }
 FA1::Status* FA1::Constructor(const char* p){
-	/* ÒòÎªÓĞ"a*", "ab*"ÕâÑùµÄRE´æÔÚ£¬ËùÒÔÕâÀïĞèÒªÒ»¸ö¿Õ×´Ì¬»ú×÷Îªµİ¹éµÄÖÕÖ¹µã */
+	/* å› ä¸ºæœ‰"a*", "ab*"è¿™æ ·çš„REå­˜åœ¨ï¼Œæ‰€ä»¥è¿™é‡Œéœ€è¦ä¸€ä¸ªç©ºçŠ¶æ€æœºä½œä¸ºé€’å½’çš„ç»ˆæ­¢ç‚¹ */
 	if (*p == '\0'){
 		return ConstructUnitAutomachine();
 	}
 	/*
-	*  ÓÉÓÚ´æÔÚ"a*|b"ÕâÖÖÇé¿ö£¬ËùÒÔ²»ÄÜÖ»ÏòÇ°¿´Ò»Î»£¨¿´2Î»Ò²²»ĞĞ£¬±ÈÈç"a|b*"£©
-	*  ÎÒÃÇ±ØĞëÍùÇ°ÕÒ¹ÜµÀ·ûºÅ£¬Í¨¹ı¹ÜµÀ·ûºÅÀ´ÇĞ¸îRE
+	*  ç”±äºå­˜åœ¨"a*|b"è¿™ç§æƒ…å†µï¼Œæ‰€ä»¥ä¸èƒ½åªå‘å‰çœ‹ä¸€ä½ï¼ˆçœ‹2ä½ä¹Ÿä¸è¡Œï¼Œæ¯”å¦‚"a|b*"ï¼‰
+	*  æˆ‘ä»¬å¿…é¡»å¾€å‰æ‰¾ç®¡é“ç¬¦å·ï¼Œé€šè¿‡ç®¡é“ç¬¦å·æ¥åˆ‡å‰²RE
 	*/
 	int f = FindPipe(p);
 	if (f < 0){
-		/* ¼ÙÈçÓöµ½¿ÆÁÖ±Õ°ü£¨Kleene closure£© */
+		/* å‡å¦‚é‡åˆ°ç§‘æ—é—­åŒ…ï¼ˆKleene closureï¼‰ */
 		if (p[1] == '*'){
 			Status* left = ConstructSingleTransitionAutomachine(*p);
 			if (!left)return 0;
@@ -212,7 +212,7 @@ FA1::Status* FA1::Constructor(const char* p){
 			Free(right);
 			return ret;
 		}
-		/* ÆÕÍ¨Çé¿öÏÂÖ»ĞèÁ¬½Ó2¸ö×´Ì¬»ú */
+		/* æ™®é€šæƒ…å†µä¸‹åªéœ€è¿æ¥2ä¸ªçŠ¶æ€æœº */
 		else{
 			Status* left = ConstructSingleTransitionAutomachine(*p);
 			if (!left)return 0;
@@ -228,7 +228,7 @@ FA1::Status* FA1::Constructor(const char* p){
 		}
 	}
 	else{
-		/* ÓĞ¹ÜµÀ·ûºÅ£¬ĞèÒª¿½±´³ö¹ÜµÀÇ°µÄÄÚÈİ£¬·Ö±ğ¹¹Ôì×´Ì¬»ú */
+		/* æœ‰ç®¡é“ç¬¦å·ï¼Œéœ€è¦æ‹·è´å‡ºç®¡é“å‰çš„å†…å®¹ï¼Œåˆ†åˆ«æ„é€ çŠ¶æ€æœº */
 		Status* left;
 		if (f == 0){
 			left = ConstructUnitAutomachine();
@@ -266,7 +266,7 @@ FA1::~FA1(){
 	if (s0)Free(s0);
 }
 int FA1::FindPipe(const char* p){
-	/* ²éÕÒ×Ö·û£¬²é²»µ½¾Í·µ»Ø-1£¬²éµ½·µ»ØÆ«ÒÆ */
+	/* æŸ¥æ‰¾å­—ç¬¦ï¼ŒæŸ¥ä¸åˆ°å°±è¿”å›-1ï¼ŒæŸ¥åˆ°è¿”å›åç§» */
 	for (int i = 0; p[i] != '\0'; ++i){
 		if (p[i] == '|')return i;
 	}
@@ -275,35 +275,35 @@ int FA1::FindPipe(const char* p){
 bool FA1::operator << (const char* pc){
 	if (!s0)throw SyntaxErrorException();
 	std::vector<Status*> p, waitForAttach;
-	/* ÎÒÃÇÒª¸ú×Ù¶à¸öÖ´ĞĞÁ÷£¬ÓĞµã¸´ÔÓ */
+	/* æˆ‘ä»¬è¦è·Ÿè¸ªå¤šä¸ªæ‰§è¡Œæµï¼Œæœ‰ç‚¹å¤æ‚ */
 	p.push_back(s0);
-	/* ÕÒµ½ËùÓĞ¿ÉÒÔ¾­ÓÉ¿Õ´®×ªÒÆµ½µÄ×´Ì¬£¬ÉÔºó»á¸ú×Ù¡£ÕâÏàµ±ÓÚÊÇÒ»¸öµÈ´ı¶ÓÁĞ */
+	/* æ‰¾åˆ°æ‰€æœ‰å¯ä»¥ç»ç”±ç©ºä¸²è½¬ç§»åˆ°çš„çŠ¶æ€ï¼Œç¨åä¼šè·Ÿè¸ªã€‚è¿™ç›¸å½“äºæ˜¯ä¸€ä¸ªç­‰å¾…é˜Ÿåˆ— */
 	waitForAttach = s0->GetClosures();
-	/* Öğ¸ö×Ö·û¼ì²â */
+	/* é€ä¸ªå­—ç¬¦æ£€æµ‹ */
 	for (; *pc != '\0'; pc += 1){
-		/* ½«ÉÏÒ»½×¶ÎÕÒµ½µÄ¿Õ´®×ªÒÆ×´Ì¬Ìí¼Óµ½×·×ÙÁ÷ÖĞ */
+		/* å°†ä¸Šä¸€é˜¶æ®µæ‰¾åˆ°çš„ç©ºä¸²è½¬ç§»çŠ¶æ€æ·»åŠ åˆ°è¿½è¸ªæµä¸­ */
 		for (size_t i = 0; i < waitForAttach.size(); ++i){
 			if (std::find(p.begin(), p.end(), waitForAttach[i]) == p.end()){
 				p.push_back(waitForAttach[i]);
 			}
 		}
-		/* Çå¿ÕµÈ´ı¶ÓÁĞ£¬ÃâµÃÖØ¸´Ìí¼Ó */
+		/* æ¸…ç©ºç­‰å¾…é˜Ÿåˆ—ï¼Œå…å¾—é‡å¤æ·»åŠ  */
 		waitForAttach = std::vector < Status* >();
 		for (size_t i = 0; i < p.size(); ++i){
-			/* Èç¹ûÕÒµ½Ò»¸ö¿ÉĞĞµÄ×ªÒÆ£¬ÄÇÃ´Õâ¸öÁ÷ĞèÒª×ªÒÆµ½ÏÂÒ»¸ö×´Ì¬ */
+			/* å¦‚æœæ‰¾åˆ°ä¸€ä¸ªå¯è¡Œçš„è½¬ç§»ï¼Œé‚£ä¹ˆè¿™ä¸ªæµéœ€è¦è½¬ç§»åˆ°ä¸‹ä¸€ä¸ªçŠ¶æ€ */
 			if (p[i]->map.find(*pc) != p[i]->map.end()){
 				p[i] = p[i]->map[*pc];
-				/* ·¢ÉúÒ»¸ö×´Ì¬×ªÒÆºóÎÒÃÇĞèÒª²éÕÒĞÂ×´Ì¬µÄ¿Õ´®×ªÒÆ×´Ì¬ */
-				/* ±ÜÃâÏÂÒ»´ÎÑ­»·ÖĞ»¹ÓĞ¿Õ´®×ªÒÆ£¬ÎÒÃÇĞèÒª½«ÏÈ½ÓÊÕÕâĞ©×´Ì¬ÔÙÌí¼Óµ½¶ÓÁĞ */
+				/* å‘ç”Ÿä¸€ä¸ªçŠ¶æ€è½¬ç§»åæˆ‘ä»¬éœ€è¦æŸ¥æ‰¾æ–°çŠ¶æ€çš„ç©ºä¸²è½¬ç§»çŠ¶æ€ */
+				/* é¿å…ä¸‹ä¸€æ¬¡å¾ªç¯ä¸­è¿˜æœ‰ç©ºä¸²è½¬ç§»ï¼Œæˆ‘ä»¬éœ€è¦å°†å…ˆæ¥æ”¶è¿™äº›çŠ¶æ€å†æ·»åŠ åˆ°é˜Ÿåˆ— */
 				std::vector < Status* > t = p[i]->GetClosures();
 				for (size_t j = 0; j < t.size(); ++j){
 					waitForAttach.push_back(t[j]);
 				}
-				/* ÒÑ´¦ÀíÍêÕâ¸öÁ÷¶ÔÓ¦µ±Ç°×Ö·ûµÄ×´Ì¬×ªÒÆ£¬Òò´Ë¸ÃÓÉÏÂÒ»´ÎÑ­»·ÉÏÁË */
+				/* å·²å¤„ç†å®Œè¿™ä¸ªæµå¯¹åº”å½“å‰å­—ç¬¦çš„çŠ¶æ€è½¬ç§»ï¼Œå› æ­¤è¯¥ç”±ä¸‹ä¸€æ¬¡å¾ªç¯ä¸Šäº† */
 				continue;
 			}
 			else{
-				/* Ã»ÓĞ¿ÉĞĞµÄ×ªÒÆ£¬Èç¹ûÕâÊÇ×îºóÒ»¸öÁ÷£¬ÄÇÃ´REÃüÖĞÊ§°Ü */
+				/* æ²¡æœ‰å¯è¡Œçš„è½¬ç§»ï¼Œå¦‚æœè¿™æ˜¯æœ€åä¸€ä¸ªæµï¼Œé‚£ä¹ˆREå‘½ä¸­å¤±è´¥ */
 				if (p.size() == 1)return false;
 				p.erase(std::remove(p.begin(), p.end(), p[i]), p.end());
 				i -= 1;
@@ -311,17 +311,17 @@ bool FA1::operator << (const char* pc){
 			}
 		}
 	}
-	/* ·Ç¿Õ×Ö·û´®ÒâÍâµÄÖÕÖ¹£¬ËµÃ÷REÃüÖĞÊ§°Ü */
+	/* éç©ºå­—ç¬¦ä¸²æ„å¤–çš„ç»ˆæ­¢ï¼Œè¯´æ˜REå‘½ä¸­å¤±è´¥ */
 	if (*pc != '\0')return false;
 
-	/* ÊäÈë½áÊøºóÓĞÁ÷´¦ÓÚ½ÓÊÜ×´Ì¬£¬ËµÃ÷REÃüÖĞ³É¹¦ */
+	/* è¾“å…¥ç»“æŸåæœ‰æµå¤„äºæ¥å—çŠ¶æ€ï¼Œè¯´æ˜REå‘½ä¸­æˆåŠŸ */
 	for (size_t i = 0; i < p.size(); ++i){
 		if (p[i]->accept)return true;
 	}
 	for (size_t i = 0; i < waitForAttach.size(); ++i){
 		if (waitForAttach[i]->accept)return true;
 	}
-	/* ÊäÈëÒâÍâµÄ½áÊøÒ²ÒâÎ¶×ÅREÃüÖĞÊ§°Ü */
+	/* è¾“å…¥æ„å¤–çš„ç»“æŸä¹Ÿæ„å‘³ç€REå‘½ä¸­å¤±è´¥ */
 	return false;
 }
 std::vector<FA1::Status*> FA1::Status::GetStatus(){
@@ -329,14 +329,14 @@ std::vector<FA1::Status*> FA1::Status::GetStatus(){
 	p.push_back(this);
 	while (p.size() > 0){
 		for (size_t i = 0; i < p.size(); ++i){
-			/* Èç¹û½ÚµãÒÑ¾­ÕÒµ½¹ıÁË£¬¾Í·ÅÆúËü£¬´ÓÏÂÒ»¸ö¿ªÊ¼ */
+			/* å¦‚æœèŠ‚ç‚¹å·²ç»æ‰¾åˆ°è¿‡äº†ï¼Œå°±æ”¾å¼ƒå®ƒï¼Œä»ä¸‹ä¸€ä¸ªå¼€å§‹ */
 			if (std::find(list.begin(), list.end(), p[i]) != list.end()){
 				p.erase(std::remove(p.begin(), p.end(), p[i]), p.end());
 				i -= 1;
 				continue;
 			}
 			list.push_back(p[i]);
-/* ÕâÀïÓĞ¸öºÜÖØÒªµÄ¼ÙÉè±ÜÃâÁË»áµ¼ÖÂÕ»Òç³öµÄËÀÑ­»·£ºThompson¹¹Ôì·¨¹¹Ôì³öµÄNFAÊÇÃ»ÓĞµ½×Ô¼ºµÄ×ªÒÆµÄ */
+/* è¿™é‡Œæœ‰ä¸ªå¾ˆé‡è¦çš„å‡è®¾é¿å…äº†ä¼šå¯¼è‡´æ ˆæº¢å‡ºçš„æ­»å¾ªç¯ï¼šThompsonæ„é€ æ³•æ„é€ å‡ºçš„NFAæ˜¯æ²¡æœ‰åˆ°è‡ªå·±çš„è½¬ç§»çš„ */
 			for (size_t j = 0; j < p[i]->closure.size(); ++j){
 				waitForAttach.push_back(p[i]->closure[j]);
 			}
@@ -345,7 +345,7 @@ std::vector<FA1::Status*> FA1::Status::GetStatus(){
 				waitForAttach.push_back(it->second);
 			}
 		}
-		/* ¸½ÉÏÕâ´ÎÕÒµ½µÄ×´Ì¬×¼±¸¿ªÊ¼ÏÂÒ»´ÎËÑË÷ */
+		/* é™„ä¸Šè¿™æ¬¡æ‰¾åˆ°çš„çŠ¶æ€å‡†å¤‡å¼€å§‹ä¸‹ä¸€æ¬¡æœç´¢ */
 		for (size_t i = 0; i < waitForAttach.size(); ++i){
 			if (std::find(list.begin(), list.end(), waitForAttach[i]) == list.end()){
 				p.push_back(waitForAttach[i]);

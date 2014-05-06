@@ -38,7 +38,7 @@ std::vector<FA1::Status*> FA2::GetClosures(const std::vector<FA1::Status*>& list
 bool FA2::operator << (const char* p){
 	if (!s0)throw FA1::SyntaxErrorException();
 	DFAStatus* cur = s0;
-	/* ÔÚDFAÖĞ¸ú×ÙÆğÀ´±ÈNFA¼òµ¥¶àÁË¡£ÓĞ¿ÉĞĞµÄ×ªÒÆ¾Í×ªÒÆ£¬Ã»ÓĞ¾Í±¨Ê§°Ü¡£ */
+	/* åœ¨DFAä¸­è·Ÿè¸ªèµ·æ¥æ¯”NFAç®€å•å¤šäº†ã€‚æœ‰å¯è¡Œçš„è½¬ç§»å°±è½¬ç§»ï¼Œæ²¡æœ‰å°±æŠ¥å¤±è´¥ã€‚ */
 	for (; *p != '\0'; ++p){
 		if (cur->map.find(*p) != cur->map.end()){
 			cur = cur->map[*p];
@@ -131,11 +131,11 @@ FA2::DFAStatus* FA2::ConstructDFA(FA1::Status* nfa){
 	Config config0;
 	config0.push_back(nfa);
 	ConfigContainer configContainer;
-	/* productÕâÀïÎÒÃÇÖ»ÊÇĞèÒª¹¹½¨Ó³Éä£¬ËùÒÔÖ»Òª×ö¶Ô¾Í¿ÉÒÔÁË */
+	/* productè¿™é‡Œæˆ‘ä»¬åªæ˜¯éœ€è¦æ„å»ºæ˜ å°„ï¼Œæ‰€ä»¥åªè¦åšå¯¹å°±å¯ä»¥äº† */
 	Config* config0Ref = configContainer.GetReference(GetClosures(config0));
 	std::vector<Config*> product;
 	product.push_back(config0Ref);
-	/* workingSetÕâÀïÊÇÒª²âÊÔÖÕÖ¹Ìõ¼şµÄ¡£ÎªÁË±ÜÃâËÀÑ­»·»¹ÊÇĞ¡ĞÄÎªÉÏ¡£ */
+	/* workingSetè¿™é‡Œæ˜¯è¦æµ‹è¯•ç»ˆæ­¢æ¡ä»¶çš„ã€‚ä¸ºäº†é¿å…æ­»å¾ªç¯è¿˜æ˜¯å°å¿ƒä¸ºä¸Šã€‚ */
 	std::vector<Config*> workingSet;
 	workingSet.push_back(config0Ref);
 	typedef std::pair<Config*, char> TransitFrom;
@@ -163,7 +163,7 @@ FA2::DFAStatus* FA2::ConstructDFA(FA1::Status* nfa){
 	for (size_t i = 0; i < size; ++i){
 		DFAStatus*& item = arr[i];
 		item = new DFAStatus;
-		/* DFAStatusµÄÄ¬ÈÏ¹¹Ôìº¯Êı²¢Ã»ÓĞ³õÊ¼»¯accpet³ÉÔ±£¬ÎÒÃÇÔÚÕâÀïÒ»²¢¸³ÖµÁË */
+		/* DFAStatusçš„é»˜è®¤æ„é€ å‡½æ•°å¹¶æ²¡æœ‰åˆå§‹åŒ–accpetæˆå‘˜ï¼Œæˆ‘ä»¬åœ¨è¿™é‡Œä¸€å¹¶èµ‹å€¼äº† */
 		item->accept = ContainsAcceptStatus(*product[i]);
 		mapToInteger[product[i]] = i;
 	}

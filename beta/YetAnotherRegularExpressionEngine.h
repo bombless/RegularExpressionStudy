@@ -3,9 +3,9 @@
 #include "../alpha/YetAnotherRegularExpressionEngine.h"
 class FA2{
 	/*
-	* ���Ӽ����취����һ��DFA
-	* �Ӽ����취�������DFA��һ��״̬����Ϊ���ã�ʵ���϶�Ӧ�����Ե�һ���������ԡ�
-	* Ҳ���Ƕ�Ӧ��һ��RE�����RE�����ܹ�ƥ����Щƥ�䵽ԭRE��ĳһ������ǰ�沿��
+	* 用子集构造法构造一个DFA
+	* 子集构造法构造出的DFA的一个状态（称为配置）实际上对应于语言的一个“子语言”
+	* 也就是对应另一个RE，这个RE总是能够匹配那些匹配到原RE的某一个串的前面部分
 	*/
 	struct DFAStatus;
 	typedef std::map<char, DFAStatus*> DFAStatusMap;
@@ -13,9 +13,9 @@ class FA2{
 		DFAStatusMap map;
 		bool accept;
 	};
-	/* ������������Ҫ�������ã�Ҳ��Ϊ��֣��ο���ַ [//zh.wikipedia.org/wiki/�ݼ�����] �� */
+	/* 我们在这里主要处理配置（也称为格局，参考网址 [//zh.wikipedia.org/wiki/幂集构造] ） */
 	;
-	/* ������һ��NFA״̬�� */
+	/* 配置是一个NFA状态集 */
 	typedef std::vector<FA1::Status*> Config;
 	class ConfigContainer{
 		std::vector<Config*> pool;
