@@ -27,7 +27,8 @@ std::vector<FA1::Status*> FA2::GetClosures(const std::vector<FA1::Status*>& list
 	for (size_t i = 0; i < list.size(); ++i){
 		std::vector<FA1::Status*> innerList = list[i]->GetClosures(list);
 		for (size_t i = 0; i < innerList.size(); ++i){
-			if (std::find(ret.begin(), ret.end(), innerList[i]) == ret.end()){
+			if (std::find(ret.begin(), ret.end(), innerList[i]) ==
+			    ret.end()){
 				ret.push_back(innerList[i]);
 			}
 		}
