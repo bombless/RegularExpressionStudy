@@ -8,6 +8,7 @@
 #include <intrin.h>
 #pragma intrinsic(__rdtsc)
 #else
+#include <limits>
 #include <ctime>
 #endif
 void expect(const char *expr, bool ex, bool ac){
