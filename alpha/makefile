@@ -8,3 +8,5 @@ $(TARGET): $(SOURCES)
 	$(CC) -o $(TARGET) $(SOURCES)
 test: $(TARGET)
 	./yaree
+clean:
+	rm -f yaree
