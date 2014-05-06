@@ -8,7 +8,7 @@
 #include <memory.h>
 class FA2;
 class FA1{
-	friend FA2;
+	friend class FA2;
 public:
 	/* 公开的构造函数，接受一个字符串，得到一个状态机 */
 	FA1(const char* RE);
@@ -24,8 +24,8 @@ private:
 	typedef std::map<const char, Status*> StatusMap;
 	class Status{
 		/* 友元，状态机需要访问这些状态的内部 */
-		friend FA1;
-		friend FA2;		
+		friend class FA1;
+		friend class FA2;		
 		/* 对状态的空字符映射 */
 		std::vector<Status*> closure;
 		/* 由非空字符映射到其他状态 */

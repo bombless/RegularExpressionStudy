@@ -46,7 +46,7 @@ public:
 		try{
 			fa << p;
 		}
-		catch (FA1::SyntaxErrorException &e){
+		catch (FA1::SyntaxErrorException &){
 			std::cout << "passed: expected exception received for RE /" << re << "/" << std::endl;
 			return *this;
 		}
