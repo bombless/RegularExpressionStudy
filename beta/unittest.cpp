@@ -20,7 +20,8 @@ void expect(const char *expr, bool ex, bool ac){
 		std::cout << "passed: " << expr << " = " << e << std::endl;
 	}
 	else{
-		std::cout << "!!error: expect " << expr << " = " << e << ", get " << a << " instead." << std::endl;
+		std::cout << "!!error: expect " << expr << " = " << e
+		<< ", get " << a << " instead." << std::endl;
 	}
 }
 class TestException{
@@ -73,29 +74,31 @@ public:
 		}
 		rdtsc_t time1 = rdtsc() - start;
 		cout << "nfa took " << time1
-			<< " clock cycles to calulate for 9999 times" << endl;
+			<< " clock cycles to calculate for 9999 times" << endl;
 		start = rdtsc();
 		for (int i = 0; i < 9999; ++i){
 			fa << p;
 		}
 		rdtsc_t time2 = rdtsc() - start;
 		cout << "dfa took " << time2 <<
-		" clock cycles to calulate for 9999 times" << endl;
+		" clock cycles to calculate for 9999 times" << endl;
 		cout << "factor: " << time1 / time2 << endl;
 #else
 		time_t tm;
 		tm = time(0);
-		for (int i = 0; i < 1000000; ++i){
+		for (int i = 0; i < numeric_limits<int>::max(); ++i){
 			faCompare << p;
 		}
 		cout << "nfa took " << (time(0) - tm)
-		<< " seconds to calulate for e6 times" << endl;
+		<< " seconds to calculate for " <<
+		numeric_limits<int>::max() << " times" << endl;
 		tm = time(0);
-		for (int i = 0; i < 1000000; ++i){
+		for (int i = 0; i < numeric_limits<int>::max(); ++i){
 			fa << p;
 		}
 		cout << "dfa took " << (time(0) - tm) <<
-		" seconds to calulate for e6 times" << endl;
+		" seconds to calculate for " <<
+		numeric_limits<int>::max() << " times" << endl;
 #endif
 		return *this;
 	}
