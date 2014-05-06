@@ -27,14 +27,16 @@ class TestException{
 public:
 	TestException(const char *re) :fa(re), re(re){}
 	TestException& operator ,(const char *p){
+		using namespace std;
 		try{
 			fa << p;
 		}
 		catch (FA1::SyntaxErrorException&){
-			std::cout << "passed: expected exception received for RE /" << re << "/" << std::endl;
+			cout << "passed:"
+			" expected exception received for RE /" << re << "/" << endl;
 			return *this;
 		}
-		std::cout << "!!error: expected exception was not caught." << std::endl;
+		cout << "!!error: expected exception was not caught." << endl;
 		return *this;
 	}
 };
@@ -49,7 +51,8 @@ class Test{
 	FA1 faCompare;
 	FA2 fa;
 public:
-	Test(const char *re, Expect e) :fa(re), faCompare(re), assert(e.GetAssert()){
+	Test(const char *re, Expect e)
+ 		:fa(re), faCompare(re), assert(e.GetAssert()){
 		std::cout << "Testing RE /" << re << "/ :" << std::endl;
 	}
 	Test& operator ,(const char*p){
@@ -67,13 +70,15 @@ public:
 			faCompare << p;
 		}
 		unsigned __int64 time1 = __rdtsc() - start;
-		cout << "nfa took " << time1 << " clock cycles to calulate for 9999 times" << endl;
+		cout << "nfa took " << time1
+			<< " clock cycles to calulate for 9999 times" << endl;
 		start = __rdtsc();
 		for (int i = 0; i < 9999; ++i){
 			fa << p;
 		}
 		unsigned __int64 time2 = __rdtsc() - start;
-		cout << "dfa took " << time2 << " clock cycles to calulate for 9999 times" << endl;
+		cout << "dfa took " << time2 <<
+		" clock cycles to calulate for 9999 times" << endl;
 		cout << "factor: " << time1 / time2 << endl;
 #else
 		time_t tm;
@@ -81,12 +86,14 @@ public:
 		for (int i = 0; i < 1000000; ++i){
 			faCompare << p;
 		}
-		cout << "nfa took " << (time(0) - tm) << " seconds to calulate for e6 times" << endl;
+		cout << "nfa took " << (time(0) - tm)
+		<< " seconds to calulate for e6 times" << endl;
 		tm = time(0);
 		for (int i = 0; i < 1000000; ++i){
 			fa << p;
 		}
-		cout << "dfa took " << (time(0) - tm) << " seconds to calulate for e6 times" << endl;
+		cout << "dfa took " << (time(0) - tm) <<
+		" seconds to calulate for e6 times" << endl;
 #endif
 		return *this;
 	}
