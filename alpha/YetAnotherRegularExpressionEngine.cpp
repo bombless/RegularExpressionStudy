@@ -110,7 +110,6 @@ FA1::Status* FA1::Status::DeepCopy(){
 	const std::vector<Status*> list = this->GetStatus();
 	size_t size = list.size();
 	std::map<const Status*const, int> pointerIndex;
-	/* 我们需要给NFA图造一个影子以便把映射关系刻画出来 */
 	/* 首先给所有的节点编一个号 */
 	for (size_t i = 0; i < size; ++i){
 		pointerIndex[list[i]] = i;
