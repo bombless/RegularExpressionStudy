@@ -12,7 +12,7 @@ typedef unsigned __int64 rdtsc_t;
 #else
 #include <ctime>
 #endif
-void expect(const char *expr, bool ex, bool ac){
+bool expect(const char *expr, bool ex, bool ac){
 	const char* e = ex ? "true" : "false";
 	const char *a = ac ? "true" : "false";
 	if (ex == ac){
@@ -22,6 +22,7 @@ void expect(const char *expr, bool ex, bool ac){
 		std::cout << "!!error: expect " << expr << " = " << e
 		<< ", get " << a << " instead." << std::endl;
 	}
+	return ex == ac;
 }
 class TestException{
 	FA2 fa;
@@ -59,12 +60,14 @@ public:
 	}
 	Test& operator ,(const char*p){
 		using namespace std;
+		bool passed;
 		if (*p == '\0'){
-			expect("<Empty String>", assert, fa << p);
+			passed = expect("<Empty String>", assert, fa << p);
 		}
 		else{
-			expect(p, assert, fa << p);
+			passed = expect(p, assert, fa << p);
 		}
+		if(!passed)return *this;
 #ifdef rdtsc
 		unsigned __int64 start;
 		start = rdtsc();
