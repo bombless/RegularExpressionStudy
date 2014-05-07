@@ -57,12 +57,6 @@ private:
 		std::vector<Status*> GetStatus();
 		Status* DeepCopy();
 	};
-	struct StatusShadow{
-		std::vector<int> closure;
-		std::map<char, int> map;
-		StatusShadow(std::vector<int> c, std::map<char, int> m)
-			:closure(c), map(m){}
-	};
 	/* 起始状态的指针。 */
 	Status* s0;
 	/* 制造一个单位状态机，它只含一个只能由空串转移到自身的状态 */
