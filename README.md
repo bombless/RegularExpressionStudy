@@ -1,4 +1,4 @@
-YetAnotherRegularExpressionEngine
+RegularExpressionStudy
 =================================
 最近看了莱斯大学的Keith D. Cooper与Linda Torczon合著的《编译器设计（第二版）》，非常精彩。
 我决定在阅读的同时按照书上的指导做一些编码，加深我对知识的理解。
