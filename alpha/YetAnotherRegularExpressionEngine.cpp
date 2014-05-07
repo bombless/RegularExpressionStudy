@@ -109,30 +109,11 @@ FA1::Status* FA1::Status::DeepCopy(){
 	Status* ret = 0;
 	const std::vector<Status*> list = this->GetStatus();
 	size_t size = list.size();
-	std::map<const Status*const, int> mapToInteger;
+	std::map<const Status*const, int> pointerIndex;
 	/* 我们需要给NFA图造一个影子以便把映射关系刻画出来 */
-	std::vector<StatusShadow> listShadow;
 	/* 首先给所有的节点编一个号 */
 	for (size_t i = 0; i < size; ++i){
-		mapToInteger[list[i]] = i;
-	}
-	for (size_t i = 0; i < size; ++i){
-		/* 我们给空串转移造影 */
-		std::vector<Status*> iClosures = list[i]->closure;
-		std::vector<int> closureShadow;
-		for (size_t j = 0; j < iClosures.size(); ++j){
-			int index = mapToInteger[iClosures[j]];
-			closureShadow.push_back(index);
-		}
-		/* 给非空字符映射造影 */
-		StatusMap iMap = list[i]->map;
-		std::map<char, int> mapShadow;
-		for (StatusMap::const_iterator it = iMap.begin(); it != iMap.end(); ++it){
-			int index = mapToInteger[it->second];
-			mapShadow[it->first] = index;
-		}
-		/* 至此这个节点的影子就造好了 */
-		listShadow.push_back(StatusShadow(closureShadow, mapShadow));
+		pointerIndex[list[i]] = i;
 	}
 	/* 造一个池子，深拷贝出的对象先放池子里 */
 	Status **pointerPool = new Status*[size];
@@ -144,26 +125,23 @@ FA1::Status* FA1::Status::DeepCopy(){
 	for (size_t i = 0; i < size; ++i){
 		/* 装配第i个状态的映射关系 */
 		Status& node = *pointerPool[i];
-		/* 根据影子构造空字符映射 */
 		std::vector<Status*>& nodeClosure = node.closure;
-		const std::vector<int>& iClosure = listShadow[i].closure;
-		for (size_t j = 0; j < iClosure.size(); ++j){
-			int index = iClosure[j];
+		for (size_t j = 0; j < list[i]->closure.size(); ++j){
+			int index = pointerIndex[list[i]->closure[j]];
 			nodeClosure.push_back(pointerPool[index]);
 		}
-		/* 根据影子构造非空字符映射 */
 		StatusMap& nodeMap = node.map;
-		const std::map<char, int>& iMap = listShadow[i].map;
-		for (std::map<char, int>::const_iterator it = iMap.begin();
-			it != iMap.end(); ++it){
-			nodeMap[it->first] = pointerPool[it->second];
+		for (StatusMap::const_iterator it = list[i]->map.begin();
+			it != list[i]->map.end(); ++it){
+			int index = pointerIndex[it->second];
+			nodeMap[it->first] = pointerPool[index];
 		}
 		/* 记录起始状态作为返回值，通常是列表中第一个节点 */
-		if (mapToInteger[this] == i){
+		if (pointerIndex[this] == i){
 			ret = &node;
 		}
 		/* 打终止状态标记 */
-		if (mapToInteger[acceptStatus] == i){
+		if (pointerIndex[acceptStatus] == i){
 			node.accept = true;
 		}
 	}
