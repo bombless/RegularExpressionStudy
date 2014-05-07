@@ -1,6 +1,6 @@
-#ifndef YetAnotherRegularExpressionEngine_Beta
-#define YetAnotherRegularExpressionEngine_Beta
-#include "../alpha/YetAnotherRegularExpressionEngine.h"
+﻿#ifndef RegularExpressionStudy_Beta
+#define RegularExpressionStudy_Beta
+#include "../alpha/RegularExpressionStudy.h"
 class FA2{
 	/*
 	* 用子集构造法构造一个DFA

@@ -1,5 +1,5 @@
-#ifndef YetAnotherRegularExpressionEngine_Alpha
-#define YetAnotherRegularExpressionEngine_Alpha
+﻿#ifndef RegularExpressionStudy_Alpha
+#define RegularExpressionStudy_Alpha
 #include <map>
 #include <vector>
 #include <algorithm>

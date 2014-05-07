@@ -1,5 +1,5 @@
-#include "../alpha/YetAnotherRegularExpressionEngine.h"
-#include "YetAnotherRegularExpressionEngine.h"
+﻿#include "../alpha/RegularExpressionStudy.h"
+#include "RegularExpressionStudy.h"
 FA2::FA2(const char* re) :s0(ConstructDFA(FA1(re).s0)){}
 FA2::~FA2(){
 	if (s0)Free(s0);
