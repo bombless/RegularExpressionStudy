@@ -14,10 +14,6 @@ void FA1::Status::SetClosure(Status* rhs){
 	closure.push_back(rhs);
 }
 std::vector<FA1::Status*> FA1::Status::GetClosures(std::vector<FA1::Status*> acc){
-	/* 若没有空串转移则直接返回 */
-	if (closure.size() == 0){
-		return closure;
-	}
 	bool add = false;
 	std::vector<Status*> ret;
 	/* 将本状态的空串转移状态复制到ret变量 */
