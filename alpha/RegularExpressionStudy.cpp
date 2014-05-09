@@ -155,7 +155,7 @@ FA1::Status* FA1::ConstructUnitAutomachine(){
 }
 FA1::Status* FA1::ConstructSingleTransitionAutomachine(char c){
 	/* 单字符RE，只需添加一个转移 */
-	if (c == '*' || c == '|')return 0;
+	if (c == '*')return 0;
 	Status* s0(new Status);
 	Status* sf(new Status);
 	sf->accept = true;
