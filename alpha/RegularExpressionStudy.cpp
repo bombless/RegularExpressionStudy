@@ -203,18 +203,13 @@ FA1::Status* FA1::Constructor(const char* p){
 	else{
 		/* 有管道符号，需要拷贝出管道前的内容，分别构造状态机 */
 		Status* left;
-		if (f == 0){
-			left = ConstructUnitAutomachine();
-		}
-		else{
-			char *buf = new char[f + 1];
-			memcpy(buf, p, f);
-			buf[f] = '\0';
-			left = Constructor(buf);
-			delete buf;
-			if (!left){
-				return 0;
-			}
+		char *buf = new char[f + 1];
+		memcpy(buf, p, f);
+		buf[f] = '\0';
+		left = Constructor(buf);
+		delete buf;
+		if (!left){
+			return 0;
 		}
 		Status* right = Constructor(&p[f + 1]);
 		if (!right){
